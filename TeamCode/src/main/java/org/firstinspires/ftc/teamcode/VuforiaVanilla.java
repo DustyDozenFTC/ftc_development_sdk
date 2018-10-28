@@ -46,10 +46,13 @@ public class VuforiaVanilla extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
+    private DcMotor leftFront = null;
+    private DcMotor rightFront = null;
     private Servo servo1 = null;
     private DcMotor arm = null;
     private DcMotor arm2 = null;
     private Servo servo2 = null;
+    private Servo slide = null;
     //sup
     @Override
     public void runOpMode() {
@@ -67,14 +70,23 @@ public class VuforiaVanilla extends LinearOpMode {
         //todo : this piece of code move into reset_motors()
         waitForStart();
         runtime.reset();
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
         leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         leftDrive.setPower(0);
         rightDrive.setPower(0);
+        leftFront.setPower(0);
+        rightFront.setPower(0);
         leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //reset_motors(0);
 
@@ -83,9 +95,9 @@ public class VuforiaVanilla extends LinearOpMode {
         //todo : Confirm rotation number from motor documentation
         leftDrive.setTargetPosition(1400);
         rightDrive.setTargetPosition(1400);
-        rightDrive.setPower(0.5);
-        leftDrive.setPower(0.5);
-
+        rightDrive.setPower(1);
+        leftDrive.setPower(1);
+        sleep(100);
 
         while(opModeIsActive() && (leftDrive.isBusy() || rightDrive.isBusy()))
         {
@@ -98,10 +110,16 @@ public class VuforiaVanilla extends LinearOpMode {
         /*leftDrive.setTargetPosition(leftDrive.getCurrentPosition() - 500);
         rightDrive.setTargetPosition(rightDrive.getCurrentPosition() + 500);*/
 
-        leftDrive.setTargetPosition(1400);
-        rightDrive.setTargetPosition(-1400);
-        rightDrive.setPower(0.5);
-        leftDrive.setPower(0.5);
+        leftDrive.setTargetPosition(leftDrive.getCurrentPosition()+1400);
+        rightDrive.setTargetPosition(rightDrive.getCurrentPosition()-1400);
+        //leftFront.setTargetPosition(leftDrive.getCurrentPosition()+1400);
+        //rightFront.setTargetPosition(rightDrive.getCurrentPosition()-1400);
+        rightDrive.setPower(1);
+        leftDrive.setPower(1);
+        rightFront.setPower(1);
+        leftFront.setPower(1);
+        sleep(100);
+
 
 
         //rightDrive.setPower(100);
@@ -111,14 +129,26 @@ public class VuforiaVanilla extends LinearOpMode {
            // leftDrive.setPower(50);
 
         }
-        leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftDrive.setTargetPosition(1400);
-        rightDrive.setTargetPosition(-1400);
-        rightDrive.setPower(0.5);
-        leftDrive.setPower(0.5);
+        //leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftDrive.setTargetPosition(leftDrive.getCurrentPosition() + 1400);
+        rightDrive.setTargetPosition(rightDrive.getCurrentPosition() + 1400);
+        //leftFront.setTargetPosition(leftDrive.getCurrentPosition() + 1400);
+        //rightFront.setTargetPosition(rightDrive.getCurrentPosition() + 1400);
+        rightDrive.setPower(1);
+        leftDrive.setPower(1);
+        //rightFront.setPower(1);
+        //leftFront.setPower(1);
+        while(opModeIsActive() && (leftDrive.isBusy() || rightDrive.isBusy()))
+        {
+            // rightDrive.setPower(50);
+            // leftDrive.setPower(50);
+
+        }
+
+
 
 
 
@@ -132,6 +162,9 @@ public class VuforiaVanilla extends LinearOpMode {
             arm = hardwareMap.get(DcMotor.class, "arm");
             servo2 = hardwareMap.get(Servo.class, "servo2");
             arm2 = hardwareMap.get(DcMotor.class, "arm2");
+            leftFront = hardwareMap.get(DcMotor.class, "lf"); //2
+            rightFront = hardwareMap.get(DcMotor.class, "rf"); //1
+            slide = hardwareMap.get(Servo.class, "slide");
         }
 
 
